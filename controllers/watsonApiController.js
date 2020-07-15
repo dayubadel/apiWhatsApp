@@ -48,7 +48,11 @@ watsonResponse.EnviaWatson = async(paramsPetition,idWhatsapp) =>{
         .catch(err => {
             //si sudede erro, enviar a grupo de soporte el mensaje
             console.log(err)
-            //res.send("error")
+            let respuestError = {
+                response_type: 'text',
+                text: 'Hola, Te pido disculpas, en este momento me encuentro con dificultades tecnicas.\nPor favor intentalo mas tarde'
+            }
+            enviamensajeWs.enviamensaje(idWhatsapp,respuestError)
         })
 
     

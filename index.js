@@ -82,7 +82,7 @@ client.on('message', message => {
 client.initialize();
 
 function enviamensaje(idchat, mensaje){
-    console.log(mensaje,'llegada')
+    // console.log(mensaje,'llegada')
     let cadena = mensaje.text
     let img = 'image'
     let posicion = -1
