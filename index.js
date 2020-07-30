@@ -43,12 +43,12 @@ client.on('ready', () => {
     
 client.on('message', message => {
     console.log(message)
-    if (message.id.remote=='status@broadcast'){
+    if (message.id.remote=='status@broadcast' || message.id.remote.includes('@g.us')){
     }else{
         if (message.type =='chat'){
             
             var mensajeInput = {
-                textMsg: message.body,
+                textMensajeReq: message.body,
                 idChat: message.id.remote,
                 idCanal: 1 //s1 = WHATSAPP => REVISAR TABLA DE BD "CanalMensajeria"
             }

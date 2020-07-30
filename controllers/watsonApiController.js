@@ -18,7 +18,7 @@ watsonResponse.EnviaWatson = async(paramsPetition,idWhatsapp) =>{
     .then(res => res.json())
     .then(resWatson => {
 
-        console.log(resWatson);
+        //console.log(resWatson);
 
         (async () => {
             for (const element of resWatson) {
