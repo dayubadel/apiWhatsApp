@@ -4,8 +4,9 @@ const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const { Client } = require('whatsapp-web.js');
 const { MessageMedia } = require('whatsapp-web.js')
-var http = require('https');
-
+var http = require('http');
+var https = require('https');
+const imageToBase64 = require('image-to-base64');
 const watsonResponse = require('./controllers/watsonApiController.js')
 
 //const client = new Client();
@@ -80,8 +81,7 @@ client.on('message', message => {
 });
 
 client.initialize();
-
-function enviamensaje(idchat, mensaje){
+async function enviamensaje(idchat, mensaje){
     // console.log(mensaje,'llegada')
     let cadena = mensaje.text
     let img = 'image'
@@ -123,7 +123,7 @@ function enviamensaje(idchat, mensaje){
         }else{
             if (mensaje.response_type == 'image'){
                 
-                ImgUrl(mensaje.source,idchat,mensaje.title)
+            await ImgUrl(mensaje.source,idchat,mensaje.title)
         }
 
 
@@ -134,27 +134,54 @@ function enviamensaje(idchat, mensaje){
 }
 
 async function ImgUrl(urlPic,wsID,descrip){
+    await imageToBase64(urlPic) // Image URL
+    .then(async (response) => {
+            // console.log(response); // "iVBORw0KGgoAAAANSwCAIA..."
+            const media = new MessageMedia('image/jpg',response)
 
-    http.get(urlPic, (resp) => {
-        resp.setEncoding('base64');
-        body = "data:" + resp.headers["content-type"] + ";base64,";
-        resp.on('data', (data) => { body += data});
-        resp.on('end', () => {
-            let respuesta1 = body.split(',')
-            let imgb64 = respuesta1[1]
-            let datas = respuesta1[0]
-            datas = datas.split(';')
-            datas = datas[0]
-            datas = datas.split(':')
-            datas = datas[1]
-            
-            const media = new MessageMedia(datas,imgb64)
-            client.sendMessage(wsID,media, { caption: descrip })
-            //return res.json({result: body, status: 'success'});
-        });
-    }).on('error', (e) => {
-        console.log(`Got error: ${e.message}`);
-    });
+    // image/jpeg
+            await client.sendMessage(wsID,media, { caption: descrip })
+
+    })
+    .catch(
+        (error) => {
+            console.log(error); // Logs an error if there was one
+        }
+    )
+    // var protocolo;
+    // if(urlPic.includes('https')){
+    //     protocolo = https;
+    // }else{
+    //     protocolo = http;
+    // }
+    // protocolo.get(urlPic, (resp) => {
+    //     console.log(urlPic)
+    //     resp.setEncoding('base64');
+    //     body = "data:" + resp.headers["content-type"] + ";base64,";
+    //     resp.on('data', (data) => { body += data});
+    //     resp.on('end', async () => {
+    //         let respuesta1 = body.split(',')
+    //         let imgb64 = respuesta1[1]
+    //         let datas = respuesta1[0]
+    //         datas = datas.split(';')
+    //         datas = datas[0]
+    //         datas = datas.split(':')
+    //         datas = datas[1]
+    //         console.log(datas)
+    //         // imgb64 = LZString.decompressFromBase64(imgb64)
+        
+    //         // console.log('nuevo',datas.length,imgb64.length)
+
+    //         const media = new MessageMedia(datas,imgb64)
+    //         await client.sendMessage(wsID,media, { caption: descrip })
+    //         // .then(ccc => {
+    //         //     console.log(ccc)
+    //         // })
+    //         //return res.json({result: body, status: 'success'});
+    //     });
+    // }).on('error', (e) => {
+    //     console.log(`Got error: ${e.message}`);
+    // });
 
 }
 exports.enviamensaje=enviamensaje

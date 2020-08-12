@@ -21,12 +21,12 @@ watsonResponse.EnviaWatson = async(paramsPetition,idWhatsapp) =>{
         //console.log(resWatson);
 
         (async () => {
+            var i = 0
             for (const element of resWatson) {
-                let returned
-                //console.log(element,'pertilente')
+                
 
-                enviamensajeWs.enviamensaje(idWhatsapp,element)
-
+                await enviamensajeWs.enviamensaje(idWhatsapp,element)
+                
                 // if(element.response_type == "text"){
                 //     //console.log(idWhatsapp,'parametros enviados')
                    

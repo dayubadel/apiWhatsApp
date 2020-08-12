@@ -11,6 +11,8 @@
   "author": "Angel Ochoa, Gabriel Loor",
   "license": "ISC",
   "dependencies": {
+    "image-to-base64": "^2.1.1",
+    "lz-string": "^1.4.4",
     "node-fetch": "^2.6.0",
     "path": "^0.12.7",
     "qrcode-terminal": "^0.12.0",
