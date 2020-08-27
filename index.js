@@ -74,9 +74,29 @@ client.on('message', message => {
             }
             //aqui escribimos si necesitan usar funcion de localizacion.               
                 
+        }else if(message.type =='ptt'){
+            let respuestError = {
+                response_type: 'text',
+                text: 'Hola. Por ahora no puedo escuchar 😅\nchateemos 😁'
+            }
+            enviamensaje(message.id.remote, respuestError)
+        }
+        else if(message.type =='image'){
+            let respuestError = {
+                response_type: 'text',
+                text: 'Disculpa, las imagenes son algo confusas para mi.\nPuedes intentar escribiendo hola 😁'
+            }
+            enviamensaje(message.id.remote, respuestError)
+        }
+        else{
+            let respuestError = {
+                response_type: 'text',
+                text: 'Hola. He sido entranda para poder enterder solo texto.\nPuedes intenar saludandome 🙂'
+            }
+            enviamensaje(message.id.remote, respuestError)
         }
         
-        }
+    }
     
 });
 
