@@ -154,6 +154,7 @@ async function enviamensaje(idchat, mensaje){
 }
 
 async function ImgUrl(urlPic,wsID,descrip){
+    // console.log(urlPic)
     await imageToBase64(urlPic) // Image URL
     .then(async (response) => {
             // console.log(response); // "iVBORw0KGgoAAAANSwCAIA..."
