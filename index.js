@@ -6,8 +6,34 @@ const { Client } = require('whatsapp-web.js');
 const { MessageMedia } = require('whatsapp-web.js')
 var http = require('http');
 var https = require('https');
+const express  = require('express');
+const bodyParser = require('body-parser')
 const imageToBase64 = require('image-to-base64');
 const watsonResponse = require('./controllers/watsonApiController.js')
+
+
+const app = express();
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+
+
+app.post('/sendmessage',watsonResponse.enviarMensajeWhatsapp)
+
+app.listen(8011, ()=> {
+    console.log('Server is listen on port 8011')
+});
+
+module.exports = app;
+
+
 
 //const client = new Client();
 const SESSION_FILE_PATH = 'session.json';
